@@ -1,0 +1,37 @@
+@startuml
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+actor "Utilisateur" as user
+
+cloud "Cloudflare Edge" as cf
+
+node "Serveur Docker (Docker Compose)" as host {
+
+  rectangle "Réseau Docker: internal" as net {
+    component "cloudflared\n(rdv_cloudflared)" as tunnel
+    component "Caddy\n(rdv_caddy)" as caddy
+    component "App PHP\n(rdv_app)" as app
+    component "phpMyAdmin\n(rdv_phpmyadmin)" as pma
+    database "MySQL\n(rdv_db)" as db
+  }
+}
+
+user --> cf : HTTPS (public)
+cf --> tunnel : Tunnel chiffré
+tunnel --> caddy : HTTP interne
+
+caddy --> app : Reverse proxy (HTTP)
+caddy --> pma : Reverse proxy (HTTP)
+
+app --> db : SQL (3306)
+pma --> db : SQL (3306)
+
+note right of caddy
+Accès local:
+- http://localhost (Web)
+- http://localhost:8082 (Admin)
+DB non exposée publiquement.
+end note
+
+@enduml
