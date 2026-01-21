@@ -3,7 +3,6 @@ skinparam componentStyle rectangle
 skinparam shadowing false
 
 actor "Utilisateur" as user
-
 cloud "Cloudflare Edge" as cf
 
 node "Serveur Docker (Docker Compose)" as host {
@@ -21,17 +20,17 @@ user --> cf : HTTPS (public)
 cf --> tunnel : Tunnel chiffré
 tunnel --> caddy : HTTP interne
 
-caddy --> app : Reverse proxy (HTTP)
-caddy --> pma : Reverse proxy (HTTP)
+caddy --> app : Reverse proxy
+caddy --> pma : Reverse proxy
 
 app --> db : SQL (3306)
 pma --> db : SQL (3306)
 
 note right of caddy
-Accès local:
+Accès local :
 - http://localhost (Web)
-- http://localhost:8082 (Admin)
-DB non exposée publiquement.
+- http://localhost:8082 (phpMyAdmin)
+DB non exposée publiquement
 end note
 
 @enduml
