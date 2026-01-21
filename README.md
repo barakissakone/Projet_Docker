@@ -37,11 +37,15 @@ redémarrage automatique et exposition sécurisée.
 
 ### Schéma d'infrastructure
 
-Ce schéma est généré dynamiquement à partir du fichier
-`docs/architecture.puml` présent dans ce dépôt.
+Le schéma ci-dessous représente l’architecture globale du projet.  
+Il est généré automatiquement à partir du fichier `docs/architecture.puml` présent dans le dépôt.
 
-![Architecture du
-Projet](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/barakissakone/Projet_Docker/main/docs/architecture.puml)
+![Architecture du projet](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/barakissakone/Projet_Docker/main/docs/architecture.puml)
+
+
+
+
+
 
 ### Description des services
 
@@ -74,7 +78,7 @@ git clone https://github.com/barakissakone/Projet_Docker.git
 cd Projet_Docker
 ```
 
-### 2️⃣ Créer un fichier `.env` (NON COMMITTÉ)
+### 2️⃣ Créer un fichier `.env` 
 
 ``` env
 MYSQL_ROOT_PASSWORD=root_password
@@ -116,24 +120,17 @@ Tu dois voir :
 ### Utilisation de l'IA (ChatGPT)
 
 **Outils utilisés :**\
-- ChatGPT
+- **ChatGPT**
 
-**Usage :** - **Génération de code :**\
-- Structuration du `docker-compose.yml`\
-- Ajout de `healthcheck` pour la robustesse des services
+**Usage :**
+- **Cloudflare  :**
+  - Aide à comprendre et configurer Cloudflare (**DNS, Cloudflare Tunnel, Zero Trust, hostname public**)
+  - Diagnostic des erreurs liées au tunnel et à l’exposition publique du service
 
--   **Débogage :**
-    -   Résolution des erreurs Docker et PowerShell\
-    -   Aide à comprendre et configurer **Cloudflare (DNS, Tunnels, Zero
-        Trust, hostname public)**
--   **Documentation :**
-    -   Aide à rédiger et structurer ce `README.md`\
-    -   Création du schéma PlantUML
+**Apprentissage :**
+- L’IA a servi de support pour comprendre les mécanismes de Cloudflare,
+- mais la configuration finale (DNS, tunnel, sécurité) a été réalisée, testée et validée manuellement.
 
-**Apprentissage :**\
-- L'IA a aidé à accélérer la configuration et le diagnostic,\
-- Mais j'ai compris et validé chaque étape : Docker, réseaux internes,
-Caddy et Cloudflare.
 
 ------------------------------------------------------------------------
 
