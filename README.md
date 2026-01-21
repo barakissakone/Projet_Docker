@@ -96,12 +96,6 @@ docker compose up -d --build
 -   Application : http://localhost\
 -   phpMyAdmin : http://localhost:8082
 
-### Accès phpMyAdmin 
-
-- URL : http://localhost:8082
-- Utilisateur : rdv_user
-- Mot de passe : rdv_password
-
 
 ### 5️⃣ Vérifier le tunnel Cloudflare
 
