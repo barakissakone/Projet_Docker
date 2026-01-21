@@ -2,5 +2,3 @@
 
 > **⚠️ MEMBRE DU GROUPE :**
 > - **Koné Barakissa** 
-> 
-
