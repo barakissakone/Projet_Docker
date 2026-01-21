@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   app:
     build:
@@ -50,19 +48,14 @@ services:
     container_name: rdv_phpmyadmin
     environment:
       PMA_HOST: db
-      PMA_USER: rdv_user
-      PMA_PASSWORD: rdv_password
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
     depends_on:
       db:
         condition: service_healthy
     networks:
       - internal
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "wget -q -O- http://localhost/ || exit 1"]
-      interval: 15s
-      timeout: 5s
-      retries: 10
 
   caddy:
     image: caddy:2
@@ -75,29 +68,23 @@ services:
       app:
         condition: service_healthy
       phpmyadmin:
-        condition: service_healthy
+        condition: service_started
     networks:
       - internal
     ports:
       - "80:80"
-      # - "443:443"  # optionnel: pas nécessaire si Cloudflare fait HTTPS
       - "8082:8082"
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "wget -q -O- http://localhost:80/ || exit 1"]
-      interval: 15s
-      timeout: 5s
-      retries: 10
 
   cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: rdv_cloudflared
     command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
-    networks:
-      - internal
     depends_on:
       caddy:
-        condition: service_healthy
+        condition: service_started
+    networks:
+      - internal
     restart: unless-stopped
 
 networks:
