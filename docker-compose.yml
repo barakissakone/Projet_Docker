@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   app:
     build:
@@ -43,23 +45,22 @@ services:
       timeout: 5s
       retries: 20
 
-phpmyadmin:
-  image: phpmyadmin/phpmyadmin:latest
-  container_name: rdv_phpmyadmin
-  volumes:
-    - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php:ro
-  environment:
-    PMA_HOST: db
-    PMA_PORT: 3306
-    PMA_USER: rdv_user
-    PMA_PASSWORD: ${PMA_PASSWORD}
-  depends_on:
-    db:
-      condition: service_healthy
-  networks:
-    - internal
-  restart: unless-stopped
-
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: rdv_phpmyadmin
+    volumes:
+      - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php:ro
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: rdv_user
+      PMA_PASSWORD: rdv_password
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - internal
+    restart: unless-stopped
 
   caddy:
     image: caddy:2
