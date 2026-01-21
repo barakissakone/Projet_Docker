@@ -1,17 +1,9 @@
-{
-  # options globales
-  email contact@rdv-medicaux.fr
-}
-
-# Site principal (ton app PHP)
+# Site principal (App PHP)
 :80 {
-  @php_app {
-    path /*
-  }
-  reverse_proxy @php_app rdv_app:80
+  reverse_proxy rdv_app:80
 }
 
-# PhpMyAdmin sur un sous-port local :8082
+# phpMyAdmin (local)
 :8082 {
   reverse_proxy rdv_phpmyadmin:80
 }
