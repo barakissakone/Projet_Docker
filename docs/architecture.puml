@@ -1,36 +1,43 @@
 @startuml
+title RDV Medical - Diagramme de composants (Docker)
+
 skinparam componentStyle rectangle
 skinparam shadowing false
 
-actor "Utilisateur" as user
-cloud "Cloudflare Edge" as cf
+component "Utilisateur\n(Navigateur)" as user
 
-node "Serveur Docker (Docker Compose)" as host {
+node "Docker Network : internal" {
 
-  rectangle "Réseau Docker: internal" as net {
-    component "cloudflared\n(rdv_cloudflared)" as tunnel
-    component "Caddy\n(rdv_caddy)" as caddy
-    component "App PHP\n(rdv_app)" as app
-    component "phpMyAdmin\n(rdv_phpmyadmin)" as pma
-    database "MySQL\n(rdv_db)" as db
-  }
+  component "cloudflared\n(Cloudflare Tunnel)\nHTTPS public" as cloudflared
+
+  component "Caddy\nReverse Proxy\nPoint d'entrée unique" as caddy
+
+  component "App PHP\nGestion RDV médicaux" as app
+
+  component "phpMyAdmin\n(Admin DB)" as pma
+
+  database "MySQL\nDB\nVolume: db_data\n(persistance)" as db
 }
 
-user --> cf : HTTPS (public)
-cf --> tunnel : Tunnel chiffré
-tunnel --> caddy : HTTP interne
+user --> cloudflared : HTTPS\n(domaine public)
+cloudflared --> caddy : HTTP interne
 
-caddy --> app : Reverse proxy
-caddy --> pma : Reverse proxy
+caddy --> app : reverse_proxy\n/ -> app:80
+caddy --> pma : reverse_proxy\n:8082 -> phpMyAdmin
 
 app --> db : SQL (3306)
 pma --> db : SQL (3306)
 
 note right of caddy
-Accès local :
-- http://localhost (Web)
-- http://localhost:8082 (phpMyAdmin)
-DB non exposée publiquement
+- Point d'entrée unique
+- Reverse proxy HTTP
+- Aucun accès direct aux services internes
+end note
+
+note right of db
+- Données persistantes (volume Docker)
+- Base non exposée publiquement
+- Accessible uniquement via le réseau interne
 end note
 
 @enduml
