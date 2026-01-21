@@ -68,6 +68,15 @@ Il est généré automatiquement à partir du fichier `docs/architecture.puml` p
                                                Internet          
                                                sécurisée         
 
+### Robustesse & Healthchecks
+
+Des *healthchecks* Docker ont été mis en place afin de garantir la stabilité de l’infrastructure et l’ordre correct de démarrage des services.
+
+- **MySQL** : vérification de la disponibilité via `mysqladmin ping`, ce qui permet de s’assurer que la base est prête avant le lancement de l’application.
+- **Application PHP** : contrôle basique de l’exécution de PHP afin de valider que le conteneur applicatif est fonctionnel.
+- **Caddy (Reverse Proxy)** : test HTTP sur le port 80 pour vérifier que le point d’entrée unique répond correctement aux requêtes.
+
+Ces healthchecks sont utilisés conjointement avec `depends_on: condition: service_healthy` afin d’éviter les erreurs de démarrage et d’améliorer la résilience globale de la stack.
 
 ## 3. Guide d'installation
 
